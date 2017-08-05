@@ -16,16 +16,8 @@ class World {
     this.users = [];
     this.agents = [];
     var seedSize = this.options.seedSize || 50;
-    for (var i = 0; i < seedSize; i++){
-      var dna = new DNA();
-      dna.randomize();
-      var position = {
-        x: Math.floor(this.width * Math.random()),
-        y: Math.floor(this.height * Math.random())
-      };
-      var agent = new Agent(position, dna, this);
-      this.createAgent(agent);
-    }
+    this.createRandomAgents(this.options.seedSize || 50);
+
     console.log(`Evolution world initialized!`)
     console.log(`World size is [${this.width},${this.height}], started with ${seedSize} agents.`);
   }
@@ -45,6 +37,19 @@ class World {
     this.users.push(user);
   }
 
+  createRandomAgents(x){
+    for (var i = 0; i < x; i++){
+      var dna = new DNA();
+      dna.randomize();
+      var position = {
+        x: Math.floor(this.width * Math.random()),
+        y: Math.floor(this.height * Math.random())
+      };
+      var agent = new Agent(position, dna, this);
+      this.createAgent(agent);
+    }
+  }
+
   createAgent(agent){
     this.agents.push(agent);
   }
@@ -53,6 +58,9 @@ class World {
     this.agents.filter(agent => {
       return agent.alive;
     });
+    if(this.agents.length < 10){
+      this.createRandomAgents(Math.floor(Math.random() * 20));
+    }
     this.agents.forEach(agent => {
       agent.update(this);
     });

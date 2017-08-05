@@ -15,8 +15,8 @@ class Agent {
       'lifespan': mapper(this.dna.getGene('lifespan').value,30*this.world.fps,60*this.world.fps),
       'replicationProb': mapper(this.dna.getGene('replicationProb').value,1/(30*this.world.fps),1/(10*this.world.fps))
       'maxSpeed':mapper(this.dna.getGene('maxSpeed').value,this.world.width/(20*fps),this.world.width/(5*fps))
-      'macAccel':mapper(this.dna.getGene('maxAccel').value,0.002,0.02)
-      
+      'maxAccel':mapper(this.dna.getGene('maxAccel').value,0.002,0.02)
+
     }
   	this.state = {
   		position:Vec2D.ObjectVector(position.x,position.y),
@@ -30,7 +30,11 @@ class Agent {
   }
 
   update(agents){
+    
+  }
 
+  applyForce(force){
+    this.state.acceleration.add(force)
   }
 
   mapper(val,min, max){

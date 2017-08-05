@@ -4,28 +4,33 @@ import * as Floor from 'floor';
 import World from './evolution/world';
 import User from './user';
 import DNA from './dna';
-var Vec2D = require('vector2d');
+import config from './config';
 
+var Vec2D = require('vector2d');
 
 class Agent {
   constructor(position,dna,w){
   	this.dna = dna
     this.world = w;
-    this.dnaMapped = {
-      'lifespan': this.mapper(this.dna.getGene('lifespan').value,30*this.world.fps,60*this.world.fps),
-      'replicationProb': this.mapper(this.dna.getGene('replicationProb').value,1/(30*this.world.fps),1/(10*this.world.fps))
-      'maxSpeed':this.mapper(this.dna.getGene('maxSpeed').value,this.world.width/(20*this.world.fps),this.world.width/(5*this.world.fps))
-      'macAccel':this.mapper(this.dna.getGene('maxAccel').value,0.002,0.02)
-    }
+    this.traits = this.expressGenes(dna);
   	this.state = {
   		position:Vec2D.ObjectVector(position.x,position.y),
   		velocity:Vec2D.ObjectVector(0,0),
   		acceleration:Vec2D.ObjectVector(0,0),
   		alive: true,
-  		health: this.dnaMapped.lifespan
+  		health: this.traits.lifespan
   	}
+  }
 
-
+  expressGenes(dna){
+    var traits = {};
+    config.genes.forEach(gene => {
+      var min = gene.expression.min(this.world);
+      var max = gene.expression.max(this.world);
+      var expressedValue = (max - min) * dna.getGene(gene.key).value + min;
+      traits[gene.key] = expressedValue;
+    })
+    return traits;
   }
 
   update(agents){

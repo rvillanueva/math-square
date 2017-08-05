@@ -8,27 +8,34 @@ var Vec2D = require('vector2d');
 
 
 class Agent {
-  constructor(position,dna){
+  constructor(position,dna,w){
   	this.dna = dna
+    this.world = w
+    this.dnaMapped = {
+      'lifespan': mapper(this.dna.getGene('lifespan').value,30*this.world.fps,60*this.world.fps),
+      'replicationProb': mapper(this.dna.getGene('replicationProb').value,1/(30*this.world.fps),1/(10*this.world.fps))
+      'maxSpeed':mapper(this.dna.getGene('maxSpeed').value,this.world.width/(20*fps),this.world.width/(5*fps))
+      'macAccel':mapper(this.dna.getGene('maxAccel').value,0.002,0.02)
+      
+    }
   	this.state = {
   		position:Vec2D.ObjectVector(position.x,position.y),
   		velocity:Vec2D.ObjectVector(0,0),
   		acceleration:Vec2D.ObjectVector(0,0),
   		alive: true,
-  		health:
+  		health: this.dnaMapped.lifespan
   	}
+
+
   }
 
   update(agents){
-  constructor(position, dna){
-    this.state = {
-        position: position || {
-          x: position.x,
-          y: position.y
-        }
-    }
+
   }
-  update(){
+
+  mapper(val,min, max){
+    v = ((max-min)*val)+min
+    return v
   }
 }
 

@@ -2,4 +2,4 @@ class Agent {
   //dns: new DNA()
 }
 
-module.exports = Agent;
+export default Agent;

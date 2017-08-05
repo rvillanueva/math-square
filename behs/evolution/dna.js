@@ -1,15 +1,11 @@
-class Trait = {
-  constructor(){
-    this.key;
-    this.value;
-  }
-}
-
 class DNA {
   constructor(){
-    this.Traits = [];
+    this.traits = [];
   }
   reproduce(dna){
+
+  }
+  randomize(){
 
   }
 }

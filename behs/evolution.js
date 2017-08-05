@@ -16,16 +16,32 @@ import World from './evolution/world';
 
 const pb = new P5Behavior();
 const FPS = 30;
-const world = new World();
+const world = new World({
+  seedSize: 50
+});
+
+
+function drawAgent(agent, pb){
+  pb.fill(204)
+  pb.ellipse(agent.state.pos.x, agent.state.pos.y, 20, 20)
+}
+
+function testDraw(pb){
+  pb.fill(204);
+  pb.ellipse(200, 200, 20, 20);
+}
 
 pb.preload = function (p) {
 }
 
 pb.setup = function (p) {
+  world.setSize(Display.width, Display.height);
   world.init();
 };
 
 pb.draw = function (floor, p) {
+  this.clear();
+
   world.clearUsers();
   if(floor && floor.users){
     floor.users.forEach((user, u) => {
@@ -36,6 +52,10 @@ pb.draw = function (floor, p) {
     })
   }
   world.update();
+  world.agents.forEach(agent => {
+    drawAgent(agent, this);
+  })
+  //testDraw();
 };
 
 

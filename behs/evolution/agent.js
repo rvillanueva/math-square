@@ -34,38 +34,48 @@ class Agent {
   }
 
   update(){
-    this.checkHealth()
-
-    this.state.acceleration = limit(this.state.acceleration,this.traits.maxAccel)
-    this.state.velocity.add(this.state.acceleration)
-    this.state.velocity = limit(this.state.velocity,this.traits.maxSpeed)
-    this.state.position.add(this.state.velocity)
-    this.state.acceleration.mulS(0)
+    this.checkHealth();
+    alignWithAgents();
+    this.state.acceleration = limit(this.state.acceleration,this.traits.maxAccel);
+    this.state.velocity.add(this.state.acceleration);
+    this.state.velocity = limit(this.state.velocity,this.traits.maxSpeed);
+    this.state.position.add(this.state.velocity);
+    this.state.acceleration.mulS(0);
   }
 
   // ____Behavior Functions________
 
   checkHealth(){
-    this.state.health -= 1
+    this.state.health -= 1;
     if (this.state.health <= 0){
-      this.state.alive = false
+      this.state.alive = false;
     }
   }
 
-  interact(){
+
+  alignWithAgents(){
+    var sum = Vec2D(0,0);
+    var count = 0;
     for ( var i =0; i < this.world.agents.length(); i++){
-      var a = this.world.agents.length[i]
-      if (a.state.position.magnitude() < this.traits.vision){
-        this.align(a)
-        this.attract(a)
-        this.repel(a)
-        this.reproduce(a)
+      var a = this.world.agents.length[i];
+      var dist = a.state.position.distance(this.state.position);
+      if ((dist > 0) && (dist<this.traits.vision)) {
+        sum.add(a.state.velocity);
+        count ++;
       }
     }
-  }
-
-  attract(a){
-
+    if(count>0){
+      sum.divS(count);
+      sum.normalize();
+      sum.mulS(this.state.maxSpeed);
+      steer = sum.clone();
+      steer.subtract(velocity);
+      steer = limit(steer,maxAccel);
+      return steer;
+    }
+    else {
+      return Vec2D(0,0);
+    }
   }
 
 

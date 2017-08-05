@@ -15,15 +15,16 @@ import * as Floor from 'floor';
 import World from './evolution/world';
 
 const pb = new P5Behavior();
-const FPS = 30;
+const FPS = 20;
 const world = new World({
-  seedSize: 50
+  seedSize: 50,
+  fps: FPS
 });
 
 
 function drawAgent(agent, pb){
   pb.fill(204)
-  pb.ellipse(agent.state.position.x, agent.state.position.y, 20, 20)
+  pb.ellipse(agent.state.position.getX(), agent.state.position.getY(), 20, 20)
 }
 
 pb.preload = function (p) {

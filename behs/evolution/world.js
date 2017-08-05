@@ -12,11 +12,9 @@ class World {
   }
 
   init(){
-    console.log(`Evolution world initialized! World size is [${this.width},${this.height}]`);
     this.users = [];
     this.agents = [];
     var seedSize = this.options.seedSize || 50;
-    console.log(seedSize);
     for (var i = 0; i < seedSize; i++){
       var dna = new DNA();
       dna.randomize();
@@ -27,6 +25,8 @@ class World {
       var agent = new Agent(position, dna);
       this.createAgent(agent);
     }
+    console.log(`Evolution world initialized!`)
+    console.log(`World size is [${this.width},${this.height}], started with ${seedSize} agents.`);
   }
 
   setSize(width, height){
@@ -53,7 +53,7 @@ class World {
       return agent.alive;
     });
     this.agents.forEach(agent => {
-      agent.update();
+      agent.update(this);
     });
   }
 }

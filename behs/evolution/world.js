@@ -40,7 +40,7 @@ class World {
   }
 
   addUser(u){
-    var user = new User();
+    var user = new User(u.id);
     user.setPosition(u.x, u.y);
     this.users.push(user);
   }

@@ -42,6 +42,7 @@ pb.draw = function (floor, p) {
   if(floor && floor.users){
     floor.users.forEach((user, u) => {
       world.addUser({
+        id: user.id,
         x: user.x,
         y: user.y
       })

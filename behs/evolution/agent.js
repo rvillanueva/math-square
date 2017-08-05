@@ -2,8 +2,12 @@ class Agent {
   //dns: new DNA()
 }
 
+<<<<<<< HEAD
 module.exports = Agent;
 
+
+
+export default Agent;
 
 Agent Architecture
 

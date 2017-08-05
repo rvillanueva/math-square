@@ -39,6 +39,7 @@ class Agent {
     this.checkHealth()
     this.checkForKill();
     this.checkForEdge();
+    this.tryReproducing();
     this.alignWithAgents();
     this.state.acceleration = this.limit(this.state.acceleration,this.traits.maxAccel)
     this.state.velocity.add(this.state.acceleration)
@@ -54,7 +55,7 @@ class Agent {
       var user = this.world.users[i];
       if(this.state.position.distance(user.position) < 20){
         this.state.alive = false;
-        console.log('DEAD')
+        console.log('Agent killed!');
         return;
       }
     }
@@ -73,6 +74,19 @@ class Agent {
       this.state.position.setY(0);
     } else if (y < 0){
       this.state.position.setY(this.world.height);
+    }
+  }
+
+  tryReproducing(){
+    var roll = Math.random();
+    if(roll < this.traits.replicationProb && this.world.agents.length < 100){
+      var partner = this.world.agents[Math.floor(Math.random() * this.world.agents.length)];
+      var dna = this.dna.reproduce(partner.dna);
+      var position = {
+        x: (this.state.position.getX() + partner.state.position.getX())/2,
+        y: (this.state.position.getY() + partner.state.position.getY())/2
+      }
+      this.world.createAgent(new Agent(position, dna, this.world));
     }
   }
 

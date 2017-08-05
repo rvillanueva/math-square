@@ -233,10 +233,6 @@ System.config({
     "behs/voronoi-team.js": [
       "threectx",
       "lib/voronoi"
-    ],
-    "behs/evolution.js": [
-      "p5beh",
-      "lib/evolution"
     ]
   },
 

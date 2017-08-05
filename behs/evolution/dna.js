@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const Genotypes = [
   'lifespan',
   'replicationProb',
@@ -11,6 +12,9 @@ const Genotypes = [
   'movementVariability',
   'mutationRate'
 ]
+=======
+import config from './config';
+>>>>>>> b2d5ea4f04146afc659b8c920f91f3bc36dab95d
 
 const maxMutation = 0.1; // the max percent a mutation can move the gene
 
@@ -48,9 +52,9 @@ class DNA {
   }
   randomize(){
     this.genes = [];
-    Genotypes.forEach(type => {
+    config.genes.forEach(gene => {
       var value = Math.floor(Math.random() * 100)/100; // should be normal dist
-      this.setGene(type, value);
+      this.setGene(gene.key, value);
     })
   }
   getGene(key){

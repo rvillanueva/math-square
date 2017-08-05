@@ -122,6 +122,32 @@ class Agent {
     }
   }
 
+  groupWithAgents(){
+    var sum = Vec2D.ObjectVector(0,0);
+    var count = 0;
+    for ( var i =0; i < this.world.agents.length; i++){
+      var a = this.world.agents[i];
+      var dist = a.state.position.distance(this.state.position);
+      if ((dist > 0) && (dist<this.traits.vision)) {
+        sum.add(a.state.position);
+        count++;
+      }
+    }
+    if(count>0){
+      sum.divS(count)
+      sum.subtract(this.state.position)
+      sum.normalize()
+      sum.mulS(this.traits.maxSpeed)
+      steer = sum.clone()
+      steer.subtract(this.state.velocity)
+      ssteer = this.limit(steer,this.traits.maxAccel);
+      return steer;
+    }
+    else {
+      return Vec2D.ObjectVector(0,0);
+    }
+  }
+
 
 
 // ______HELPER FUNCTIIONS__________

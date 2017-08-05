@@ -9,6 +9,7 @@ class World {
     this.agents = [];
     this.width = 1920;
     this.height = 1080;
+    this.fps = this.options.fps || 20;
   }
 
   init(){
@@ -22,7 +23,7 @@ class World {
         x: Math.floor(this.width * Math.random()),
         y: Math.floor(this.height * Math.random())
       };
-      var agent = new Agent(position, dna);
+      var agent = new Agent(position, dna, this);
       this.createAgent(agent);
     }
     console.log(`Evolution world initialized!`)

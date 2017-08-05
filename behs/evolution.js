@@ -15,9 +15,10 @@ import * as Floor from 'floor';
 import World from './evolution/world';
 
 const pb = new P5Behavior();
-const FPS = 30;
+const FPS = 20;
 const world = new World({
-  seedSize: 50
+  seedSize: 50,
+  fps: FPS
 });
 
 

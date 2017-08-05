@@ -1,20 +1,4 @@
-<<<<<<< HEAD
-const Genotypes = [
-  'lifespan',
-  'replicationProb',
-  'maxSpeed',
-  'maxAccel',
-  'deathRepel',
-  'vision',
-  'attracionToOthers',
-  'repelledFromOthers',
-  'repelPlayer',
-  'movementVariability',
-  'mutationRate'
-]
-=======
 import config from './config';
->>>>>>> b2d5ea4f04146afc659b8c920f91f3bc36dab95d
 
 const maxMutation = 0.1; // the max percent a mutation can move the gene
 

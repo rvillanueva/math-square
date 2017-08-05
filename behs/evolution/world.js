@@ -55,11 +55,11 @@ class World {
   }
 
   update(){
-    this.agents.filter(agent => {
-      return agent.alive;
+    this.agents = this.agents.filter(agent => {
+      return agent.state.alive;
     });
     if(this.agents.length < 10){
-      this.createRandomAgents(Math.floor(Math.random() * 20));
+      this.createRandomAgents(Math.floor(Math.random() * 10));
     }
     this.agents.forEach(agent => {
       agent.update(this);

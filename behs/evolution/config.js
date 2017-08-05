@@ -71,31 +71,15 @@ var config = {
       }
     },
     {
-      key: 'attractionToOthers',
+      key: 'distanceFromOthers',
       expression: {
-        min: (world) => {
-          var magnitude = 0.02;
-          return magnitude;
+        min: (world, agent) => {
+          return 20;
         },
-        max: (world) => {
-          var magnitude = 2;
-          return magnitude;
+        max: (world, agent) => {
+          return agent.dna.getGene('vision').value;
         },
-        units: 'pixels per frames squared'
-      }
-    },
-    {
-      key: 'repelledFromOthers',
-      expression: {
-        min: (world) => {
-          var magnitude = 0.02;
-          return magnitude;
-        },
-        max: (world) => {
-          var magnitude = 2;
-          return magnitude;
-        },
-        units: 'pixels per frames squared'
+        units: 'desired pixel distance from others'
       }
     }
   ]

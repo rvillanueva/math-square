@@ -24,7 +24,7 @@ const world = new World({
 
 function drawAgent(agent, pb){
   pb.fill(204)
-  pb.ellipse(agent.state.position.getX(), agent.state.position.getY(), 20, 20)
+  pb.ellipse(agent.state.position.getX(), agent.state.position.getY(), 10, 10)
 }
 
 pb.preload = function (p) {

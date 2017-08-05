@@ -67,9 +67,9 @@ class Agent {
   }
 
   alignWithAgents(){
-    var sum = Vec2D(0,0);
+    var sum = Vec2D.ObjectVector(0,0);
     var count = 0;
-    for ( var i =0; i < this.world.agents.length(); i++){
+    for ( var i =0; i < this.world.agents.length; i++){
       var a = this.world.agents.length[i];
       var dist = a.state.position.distance(this.state.position);
       if ((dist > 0) && (dist<this.traits.vision)) {
@@ -80,14 +80,40 @@ class Agent {
     if(count>0){
       sum.divS(count);
       sum.normalize();
-      sum.mulS(this.state.maxSpeed);
+      sum.mulS(this.traits.maxSpeed);
       steer = sum.clone();
-      steer.subtract(velocity);
-      steer = limit(steer,maxAccel);
+      steer.subtract(this.state.velocity);
+      steer = this.limit(steer,this.traits.maxAccel);
       return steer;
     }
     else {
-      return Vec2D(0,0);
+      return Vec2D.ObjectVector(0,0);
+    }
+  }
+
+  groupWithAgents(){
+    var sum = Vec2D.ObjectVector(0,0);
+    var count = 0;
+    for ( var i =0; i < this.world.agents.length; i++){
+      var a = this.world.agents.length[i];
+      var dist = a.state.position.distance(this.state.position);
+      if ((dist > 0) && (dist<this.traits.vision)) {
+        sum.add(a.state.position);
+        count++;
+      }
+    }
+    if(count>0){
+      sum.divS(count)
+      sum.subtract(this.state.position)
+      sum.normalize()
+      sum.mulS(this.traits.maxSpeed)
+      steer = sum.clone()
+      steer.subtract(this.state.velocity)
+      ssteer = this.limit(steer,this.traits.maxAccel);
+      return steer;
+    }
+    else {
+      return Vec2D.ObjectVector(0,0);
     }
   }
 

@@ -46,12 +46,12 @@ var config = {
       key: 'maxAccel',
       expression: {
         min: (world) => {
-          var accel = 0.002;
-          return accel/world.fps;
+          var accel = 0.02;
+          return accel;
         },
         max: (world) => {
-          var accel = 0.2;
-          return accel/world.fps;
+          var accel = 1000;
+          return accel;
         },
         units: 'pixels per frame squared'
       }
@@ -64,7 +64,7 @@ var config = {
           return percentOfWidth * world.width;
         },
         max: (world) => {
-          var percentOfWidth = 0.2;
+          var percentOfWidth = 1;
           return percentOfWidth * world.width;
         },
         units: 'percent of board width'

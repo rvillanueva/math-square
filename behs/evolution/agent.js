@@ -17,7 +17,7 @@ class Agent {
     this.traits = this.expressGenes(dna);
   	this.state = {
   		position:Vec2D.ObjectVector(position.x,position.y),
-  		velocity:Vec2D.ObjectVector(Math.random() * 4, Math.random() * 4),
+  		velocity:Vec2D.ObjectVector((Math.random() - 0.5) * 7, (Math.random() - 0.5) * 7),
   		acceleration:Vec2D.ObjectVector(0,0),
   		alive: true,
   		health: this.traits.lifespan

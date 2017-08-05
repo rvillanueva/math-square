@@ -23,12 +23,7 @@ const world = new World({
 
 function drawAgent(agent, pb){
   pb.fill(204)
-  pb.ellipse(agent.state.pos.x, agent.state.pos.y, 20, 20)
-}
-
-function testDraw(pb){
-  pb.fill(204);
-  pb.ellipse(200, 200, 20, 20);
+  pb.ellipse(agent.state.position.x, agent.state.position.y, 20, 20)
 }
 
 pb.preload = function (p) {
@@ -55,7 +50,6 @@ pb.draw = function (floor, p) {
   world.agents.forEach(agent => {
     drawAgent(agent, this);
   })
-  //testDraw();
 };
 
 

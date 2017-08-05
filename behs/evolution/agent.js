@@ -20,14 +20,20 @@ class Agent {
   }
 
   update(agents){
-
+  constructor(position, dna){
+    this.state = {
+        position: position || {
+          x: position.x,
+          y: position.y
+        }
+    }
+  }
+  update(){
   }
 }
 
+
 module.exports = Agent;
-
-
-export default Agent;
 
 
 // Agent Architecture
@@ -58,3 +64,4 @@ export default Agent;
 // for a in agents
 // 	if a distance is less than vision
 // 		decide if 
+

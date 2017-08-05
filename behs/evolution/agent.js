@@ -10,13 +10,12 @@ var Vec2D = require('vector2d');
 class Agent {
   constructor(position,dna,w){
   	this.dna = dna
-    this.world = w
+    this.world = w;
     this.dnaMapped = {
-      'lifespan': mapper(this.dna.getGene('lifespan').value,30*this.world.fps,60*this.world.fps),
-      'replicationProb': mapper(this.dna.getGene('replicationProb').value,1/(30*this.world.fps),1/(10*this.world.fps))
-      'maxSpeed':mapper(this.dna.getGene('maxSpeed').value,this.world.width/(20*fps),this.world.width/(5*fps))
-      'macAccel':mapper(this.dna.getGene('maxAccel').value,0.002,0.02)
-
+      'lifespan': this.mapper(this.dna.getGene('lifespan').value,30*this.world.fps,60*this.world.fps),
+      'replicationProb': this.mapper(this.dna.getGene('replicationProb').value,1/(30*this.world.fps),1/(10*this.world.fps))
+      'maxSpeed':this.mapper(this.dna.getGene('maxSpeed').value,this.world.width/(20*this.world.fps),this.world.width/(5*this.world.fps))
+      'macAccel':this.mapper(this.dna.getGene('maxAccel').value,0.002,0.02)
     }
   	this.state = {
   		position:Vec2D.ObjectVector(position.x,position.y),
@@ -34,13 +33,13 @@ class Agent {
   }
 
   mapper(val,min, max){
-    v = ((max-min)*val)+min
+    var v = ((max-min)*val)+min
     return v
   }
 }
 
 
-module.exports = Agent;
+export default Agent;
 
 
 // Agent Architecture

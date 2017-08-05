@@ -131,8 +131,6 @@ class Agent {
     }
     else {
       return Vec2D.ObjectVector(0,0);
-=======
->>>>>>> 25aef82b2d7642a561553f76d47618c5140e10a1
     }
   }
 

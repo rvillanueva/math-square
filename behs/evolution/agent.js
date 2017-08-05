@@ -8,6 +8,8 @@ import config from './config';
 
 var Vec2D = require('vector2d');
 
+const killDistance = 20;
+
 class Agent {
   constructor(position,dna,w){
   	this.dna = dna
@@ -25,8 +27,8 @@ class Agent {
   expressGenes(dna){
     var traits = {};
     config.genes.forEach(gene => {
-      var min = gene.expression.min(this.world);
-      var max = gene.expression.max(this.world);
+      var min = gene.expression.min(this.world, this);
+      var max = gene.expression.max(this.world, this);
       var expressedValue = (max - min) * dna.getGene(gene.key).value + min;
       traits[gene.key] = expressedValue;
     })
@@ -34,16 +36,28 @@ class Agent {
   }
 
   update(){
-    this.checkHealth();
-    alignWithAgents();
-    this.state.acceleration = limit(this.state.acceleration,this.traits.maxAccel);
-    this.state.velocity.add(this.state.acceleration);
-    this.state.velocity = limit(this.state.velocity,this.traits.maxSpeed);
-    this.state.position.add(this.state.velocity);
-    this.state.acceleration.mulS(0);
+    this.checkHealth()
+    this.checkForKill();
+    this.alignWithAgents();
+    this.state.acceleration = this.limit(this.state.acceleration,this.traits.maxAccel)
+    this.state.velocity.add(this.state.acceleration)
+    this.state.velocity = this.limit(this.state.velocity,this.traits.maxSpeed)
+    this.state.position.add(this.state.velocity)
+    this.state.acceleration.mulS(0)
   }
 
   // ____Behavior Functions________
+
+  checkForKill(){
+    for (var i = 0; i < this.world.users.length; i++){
+      var user = this.world.users[i];
+      if(this.state.position.distance(user.position) < 20){
+        this.state.alive = false;
+        console.log('DEAD')
+        return;
+      }
+    }
+  }
 
   checkHealth(){
     this.state.health -= 1;
@@ -51,7 +65,6 @@ class Agent {
       this.state.alive = false;
     }
   }
-
 
   alignWithAgents(){
     var sum = Vec2D(0,0);
@@ -100,6 +113,8 @@ class Agent {
     return v
   }
 }
+
+export default Agent;
 
 
 

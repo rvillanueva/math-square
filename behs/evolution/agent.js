@@ -17,7 +17,7 @@ class Agent {
     this.traits = this.expressGenes(dna);
   	this.state = {
   		position:Vec2D.ObjectVector(position.x,position.y),
-  		velocity:Vec2D.ObjectVector(0,0),
+  		velocity:Vec2D.ObjectVector(Math.random() * 4, Math.random() * 4),
   		acceleration:Vec2D.ObjectVector(0,0),
   		alive: true,
   		health: this.traits.lifespan
@@ -38,6 +38,7 @@ class Agent {
   update(){
     this.checkHealth()
     this.checkForKill();
+    this.checkForEdge();
     this.alignWithAgents();
     this.state.acceleration = this.limit(this.state.acceleration,this.traits.maxAccel)
     this.state.velocity.add(this.state.acceleration)
@@ -59,6 +60,22 @@ class Agent {
     }
   }
 
+  checkForEdge(){
+    var x = this.state.position.getX();
+    var y = this.state.position.getY();
+    if(x > this.world.width){
+      this.state.position.setX(0);
+    } else if (x < 0){
+      this.state.position.setX(this.world.width);
+    }
+
+    if(y > this.world.height){
+      this.state.position.setY(0);
+    } else if (y < 0){
+      this.state.position.setY(this.world.height);
+    }
+  }
+
   checkHealth(){
     this.state.health -= 1;
     if (this.state.health <= 0){
@@ -70,7 +87,7 @@ class Agent {
     var sum = Vec2D.ObjectVector(0,0);
     var count = 0;
     for ( var i =0; i < this.world.agents.length; i++){
-      var a = this.world.agents.length[i];
+      var a = this.world.agents[i];
       var dist = a.state.position.distance(this.state.position);
       if ((dist > 0) && (dist<this.traits.vision)) {
         sum.add(a.state.velocity);
@@ -81,7 +98,7 @@ class Agent {
       sum.divS(count);
       sum.normalize();
       sum.mulS(this.traits.maxSpeed);
-      steer = sum.clone();
+      var steer = sum.clone();
       steer.subtract(this.state.velocity);
       steer = this.limit(steer,this.traits.maxAccel);
       return steer;
@@ -95,7 +112,7 @@ class Agent {
     var sum = Vec2D.ObjectVector(0,0);
     var count = 0;
     for ( var i =0; i < this.world.agents.length; i++){
-      var a = this.world.agents.length[i];
+      var a = this.world.agents[i];
       var dist = a.state.position.distance(this.state.position);
       if ((dist > 0) && (dist<this.traits.vision)) {
         sum.add(a.state.position);
@@ -114,6 +131,8 @@ class Agent {
     }
     else {
       return Vec2D.ObjectVector(0,0);
+=======
+>>>>>>> 25aef82b2d7642a561553f76d47618c5140e10a1
     }
   }
 

@@ -46,7 +46,7 @@ function drawAgent(agent, pb){
   pb.push();
   pb.translate(agent.state.position.x,agent.state.position.y);
   pb.rotate(frames / (8 * (maxSpeed - 13)/6.5));
-  star(0,0, distanceFromOthers*20 + 1, attractionToOthers*20 + 1, Math.floor(vision*10), pb);
+  star(0,0, distanceFromOthers*20 + 5, attractionToOthers*20 + 5, Math.floor(vision*5) + 3, pb);
   pb.pop();
 }
 

@@ -10,8 +10,8 @@ class User {
     this.velocity = Vec2D.ObjectVector(0,0)
     this.acceleration = Vec2D.ObjectVector(0,0)
 
-    this.maxAccel = 0.03
-    this.maxSpeed = 2
+    this.maxAccel = 0.15
+    this.maxSpeed = 7
   }
 
   setPosition(x, y){
@@ -87,14 +87,18 @@ class User {
     var y = this.position.getY();
     if(x > this.world.width - margin){
       this.position.setX(this.world.width - margin);
+      this.velocity.x = -this.velocity.x;
     } else if (x < margin){
       this.position.setX(margin);
+      this.velocity.x = -this.velocity.x;
     }
 
     if(y > this.world.height - margin){
       this.position.setY(this.world.height - margin);
+      this.velocity.y = -this.velocity.y;
     } else if (y < margin){
       this.position.setY(margin);
+      this.velocity.y = -this.velocity.y;
     }
   }
 

@@ -1,3 +1,29 @@
+# Evolution
+
+MoMath Hackathon 2017: Evolution
+
+Project category: Math Square
+
+## Team members
+Ryan Villanueva
+Prakhar Mehrotra
+David Krawczyk
+
+## The Math
+
+Genetic algorithms is the mathematical principle explored in this activity. Organisms have traits that mutate as they reproduce. Organisms that are more apt to survive are created as a result. This principle is vital in engineering, ecology, epidemiology, etc. Using genetic algorithms solutions can be optimized for their application.
+
+## The Submission
+
+Players can watch the population's traits change as they eliminate organisms within the world. The organisms will adapt with survival traits. Each organism reproduces by combining gene pools to adapt to its environment. Acceleration, velocity, repulsion from others and from the player, probability of reproduction, and awareness of the user are all traits of the population.
+
+Repulsion from others and attractions from others is visualized in the shape of the organism. Star-like organisms are more attracted to others. The speed at which they rotate reflects the organism’s max velocity. The color is determined genetically.
+
+
+
+
+
+
 # MoMath _Math Square_
 
 ## Overview

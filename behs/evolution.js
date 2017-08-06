@@ -23,11 +23,13 @@ const world = new World({
   width: Display.width,
   height: Display.height
 });
+let frames = 0;
 
 
 function drawAgent(agent, pb){
   var lifespan = agent.dna.getGene("lifespan").value
   var maxAccel = agent.dna.getGene("maxAccel").value
+  var maxSpeed = agent.dna.getGene("maxSpeed").value
   var health = agent.state.health
   var attractionToOthers = agent.dna.getGene("attractionToOthers").value
   var distanceFromOthers = agent.dna.getGene("distanceFromOthers").value
@@ -42,13 +44,9 @@ function drawAgent(agent, pb){
   pb.fill(hslStr);
   pb.push();
   pb.translate(agent.state.position.x,agent.state.position.y);
-  pb.rotate(FPS / 100);
-  polygon(0, 0, 15, lifespan*10, pb);
+  pb.rotate(frames / (8 * (maxSpeed - 13)/6.5));
+  star(0,0, distanceFromOthers*20 + 1, attractionToOthers*20 + 1, Math.floor(vision*10), pb);
   pb.pop();
-}
-
-function drawUser(user){
-
 }
 
 function drawCounter(number, pb){
@@ -56,6 +54,32 @@ function drawCounter(number, pb){
   pb.stroke(0);
   pb.textSize(18);
   pb.text(`Remaining: ${number}`, 25, 50);
+}
+function drawUser(user,pb){
+	//console.log(user.position)
+	var r = config.killRadius
+	pb.noFill()
+	pb.strokeWeight(3)
+	pb.stroke(0,100,255)
+	pb.ellipse(user.position.x,user.position.y,r,r)
+	pb.noStroke()
+	pb.fill(0,100,255)
+	pb.ellipse(user.position.x,user.position.y,r/2,r/2)
+}
+
+function star(x, y, radius1, radius2, npoints, pb) {
+  var angle = pb.TWO_PI / npoints;
+  var halfAngle = angle/2.0;
+  pb.beginShape();
+  for (var a = 0; a < pb.TWO_PI; a += angle) {
+    var sx = x + pb.cos(a) * radius2;
+    var sy = y + pb.sin(a) * radius2;
+    pb.vertex(sx, sy);
+    sx = x + pb.cos(a+halfAngle) * radius1;
+    sy = y + pb.sin(a+halfAngle) * radius1;
+    pb.vertex(sx, sy);
+  }
+  pb.endShape();
 }
 
 function polygon(x, y, radius, npoints,pb) {
@@ -69,8 +93,6 @@ function polygon(x, y, radius, npoints,pb) {
   pb.endShape();
 }
 
-
-
 pb.preload = function (p) {
 }
 
@@ -80,7 +102,11 @@ pb.setup = function (p) {
 
 pb.draw = function (floor, p) {
   this.clear();
-
+  if(frames < 300){
+    frames++;
+  } else {
+    frames = 0;
+  }
   world.clearUsers();
   if(floor && floor.users){
     floor.users.forEach((user, u) => {
@@ -95,6 +121,9 @@ pb.draw = function (floor, p) {
   this.background(60)
   world.agents.forEach(agent => {
     drawAgent(agent, this);
+  })
+  world.users.forEach(user => {
+  	drawUser(user,this)
   })
   drawCounter(world.agents.length, this);
 };

@@ -61,7 +61,7 @@ class Agent {
   checkForKill(){
     for (var i = 0; i < this.world.users.length; i++){
       var user = this.world.users[i];
-      if(this.state.position.distance(user.position) < config.killRadius ){
+      if(this.state.position.distance(user.position) < config.killRadius/2 ){
         this.state.alive = false;
         console.log('Agent killed!');
         return;

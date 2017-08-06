@@ -30,6 +30,7 @@ export const behaviorsByID = [
   /* 22 */ 'gravity',
   /* 23 */ 'maximal-graph',
   /* 24 */ 'evolution',
+  /* 25 */ 'david',
 ];
 
 const fallback = ['nltmaze', 'sokoban', 'balloon', 'voronoi-color', 'icemaze', 'spanning-tree'];

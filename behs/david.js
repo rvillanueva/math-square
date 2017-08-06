@@ -29,34 +29,30 @@ function drawAgent(agent, pb){
   var attractionToOthers = agent.dna.getGene("attractionToOthers").value
   var distanceFromOthers = agent.dna.getGene("distanceFromOthers").value
   var replicationProb = agent.dna.getGene("replicationProb").value
-  var vision = agent.dna.getGene("vision").value
-  var width = 2
-  var height = 2
-  pb.fill(attractionToOthers*255,distanceFromOthers*255,255, health*0.5)
-  pb.stroke('hsl(160, 100%, health*100%)');
-  pb.strokeWeight(vision*2);
+  pb.fill(attractOthers*255,repelOthers*255,repelPlayer*255, health*0.5)
+  pb.stroke(0,191,255,health*0.5);
+  pb.strokeWeight(vision*8);
   pb.push();
-  pb.translate(agent.state.position.x,agent.state.position.y);
-  pb.rotate(FPS / (15/maxAccel));
-  star(0, 0, 3, 15, lifespan*10, pb); 
+  pb.translate(width*0.5, height*0.5);
+  pb.rotate(frameCount / (15/accel));
+  pb.star(0, 0, 25/replicationProb, 200, lifespan*10); 
   pb.pop();
 }
 
-function star(x, y, radius1, radius2, npoints, pb) {
-  var angle = pb.TWO_PI / npoints;
+function star(x, y, radius1, radius2, npoints) {
+  var angle = TWO_PI / npoints;
   var halfAngle = angle/2.0;
-  pb.beginShape();
-  for (var a = 0; a < pb.TWO_PI; a += angle) {
-    var sx = x + pb.cos(a) * radius2;
-    var sy = y + pb.sin(a) * radius2;
-    pb.vertex(sx, sy);
-    sx = x + pb.cos(a+halfAngle) * radius1;
-    sy = y + pb.sin(a+halfAngle) * radius1;
-    pb.vertex(sx, sy);
+  beginShape();
+  for (var a = 0; a < TWO_PI; a += angle) {
+    var sx = x + cos(a) * radius2;
+    var sy = y + sin(a) * radius2;
+    vertex(sx, sy);
+    sx = x + cos(a+halfAngle) * radius1;
+    sy = y + sin(a+halfAngle) * radius1;
+    vertex(sx, sy);
   }
-  pb.endShape();
+  endShape(CLOSE);
 }
-
 
 
 pb.preload = function (p) {

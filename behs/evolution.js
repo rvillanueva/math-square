@@ -35,6 +35,7 @@ function drawAgent(agent, pb){
   pb.fill(attractionToOthers*255,distanceFromOthers*255,255, health*0.5)
   pb.stroke('hsl(160, 100%, health*100%)');
   pb.strokeWeight(vision*2);
+
   pb.push();
   pb.translate(agent.state.position.x,agent.state.position.y);
   pb.rotate(FPS / (15/maxAccel));

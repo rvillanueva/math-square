@@ -23,12 +23,24 @@ const world = new World({
 
 
 function drawAgent(agent, pb){
-  pb.noStroke()
-  pb.fill(204)
-  pb.ellipse(agent.state.position.getX(), agent.state.position.getY(), 10, 10)
-  pb.noFill()
+
+  var vector = pb.createVector(agent.state.velocity.x, agent.state.velocity.y);
+  var theta = vector.heading() + pb.radians(90);
+  var r = 5;
+  pb.fill(204);
+  pb.stroke(0);
+  pb.push();
+  pb.translate(agent.state.position.x,agent.state.position.y);
+  pb.rotate(theta);
+  pb.beginShape();
+  pb.vertex(0, -r*2);
+  pb.vertex(-r, r*2);
+  pb.vertex(r, r*2);
+  pb.endShape();
   pb.stroke(255,0,0)
-  //pb.ellipse(agent.state.position.getX(), agent.state.position.getY(), agent.traits.vision, agent.traits.vision)
+  //pb.ellipse(0, 0, agent.traits.vision, agent.traits.vision)
+  pb.pop();
+
 }
 
 pb.preload = function (p) {

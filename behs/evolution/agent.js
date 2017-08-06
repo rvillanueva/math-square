@@ -8,7 +8,11 @@ import config from './config';
 
 var Vec2D = require('vector2d');
 
-const killDistance = 20;
+const killDistance = 40;
+
+function sigmoid(t) {
+    return 1/(1+Math.pow(Math.E, -t));
+}
 
 class Agent {
   constructor(position,dna,w){
@@ -41,6 +45,9 @@ class Agent {
     this.checkForKill();
     this.checkForEdge();
     this.tryReproducing();
+    if(this.world.agents.length < 100){
+      this.tryReproducing();
+    }
     //this.alignWithAgents();
     this.groupWithAgents();
     this.separateFromAgents();
@@ -82,9 +89,13 @@ class Agent {
   }
 
   tryReproducing(){
+    var nearbyAgents = this.world.agents.filter(agent => {
+      return this.state.position.distance(agent.state.position) < this.traits.vision;
+    })
+
     var roll = Math.random();
-    if(roll < this.traits.replicationProb && this.world.agents.length < 100){
-      var partner = this.world.agents[Math.floor(Math.random() * this.world.agents.length)];
+    if(roll < (this.traits.replicationProb * sigmoid(nearbyAgents.length)) && nearbyAgents.length > 0){
+      var partner = nearbyAgents[Math.floor(Math.random() * nearbyAgents.length]];
       var dna = this.dna.reproduce(partner.dna);
       var position = {
         x: (this.state.position.getX() + partner.state.position.getX())/2,
@@ -212,7 +223,7 @@ class Agent {
       vec.mulS(mag)
     }
     return v
-    
+
   }
 
   mapper(val,min, max){

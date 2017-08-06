@@ -95,15 +95,39 @@ var config = {
       }
     },
     {
-      key: 'color',
+      key: 'hsl-h',
       expression:{
         min: (world) => {
           return 0;
         },
         max: (world) => {
-          return 16777215;
+          return 256;
         },
-        units: 'integer to rgb'
+        units: 'hue'
+      }
+    },
+    {
+      key: 'hsl-s',
+      expression:{
+        min: (world) => {
+          return 75;
+        },
+        max: (world) => {
+          return 100;
+        },
+        units: 'percent'
+      }
+    },
+    {
+      key: 'hsl-l',
+      expression:{
+        min: (world) => {
+          return 30;
+        },
+        max: (world) => {
+          return 95;
+        },
+        units: 'percent'
       }
     }
   ]

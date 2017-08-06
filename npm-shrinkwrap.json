@@ -1118,11 +1118,6 @@
       "from": "ini@https://registry.npmjs.org/ini/-/ini-1.3.4.tgz",
       "resolved": "https://registry.npmjs.org/ini/-/ini-1.3.4.tgz"
     },
-    "int-to-rgb": {
-      "version": "1.0.0",
-      "from": "int-to-rgb@latest",
-      "resolved": "http://registry.npmjs.org/int-to-rgb/-/int-to-rgb-1.0.0.tgz"
-    },
     "invariant": {
       "version": "2.2.2",
       "from": "invariant@https://registry.npmjs.org/invariant/-/invariant-2.2.2.tgz",

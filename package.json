@@ -6,7 +6,6 @@
   "dependencies": {
     "electron": "^1.7.5",
     "electron-log": "^2.2.7",
-    "int-to-rgb": "^1.0.0",
     "jspm": "^0.16.53",
     "vector2d": "^2.1.0"
   },

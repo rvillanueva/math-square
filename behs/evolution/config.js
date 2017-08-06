@@ -87,7 +87,7 @@ var config = {
           return 0;
         },
         max: (world, agent) => {
-          return 1;
+          return 3;
         },
         units: 'pixels/frame squared'
       }

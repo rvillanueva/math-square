@@ -27,8 +27,8 @@ const world = new World({
 
 function drawAgent(agent, pb){
   var lifespan = agent.dna.getGene("lifespan").value
-  var maxAccel = agent.dna.getGene("maxAccel").value  
-  var health = agent.state.health 
+  var maxAccel = agent.dna.getGene("maxAccel").value
+  var health = agent.state.health
   var attractionToOthers = agent.dna.getGene("attractionToOthers").value
   var distanceFromOthers = agent.dna.getGene("distanceFromOthers").value
   var replicationProb = agent.dna.getGene("replicationProb").value
@@ -43,7 +43,7 @@ function drawAgent(agent, pb){
   pb.push();
   pb.translate(agent.state.position.x,agent.state.position.y);
   pb.rotate(FPS / 100);
-  polygon(0, 0, 15, lifespan*10, pb);  
+  polygon(0, 0, 15, lifespan*10, pb);
   pb.pop();
 }
 
@@ -54,8 +54,8 @@ function drawUser(user){
 function drawCounter(number, pb){
   pb.fill(256);
   pb.stroke(0);
-  pb.textSize(30);
-  pb.text(`Remaining: ${number}`, 50, 50);
+  pb.textSize(18);
+  pb.text(`Remaining: ${number}`, 25, 50);
 }
 
 function polygon(x, y, radius, npoints,pb) {

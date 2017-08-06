@@ -32,7 +32,7 @@ var config = {
       key: 'maxSpeed',
       expression: {
         min: (world) => {
-          var secondsToCoverWidth = 40;
+          var secondsToCoverWidth = 20;
           return world.width / (secondsToCoverWidth * world.fps);
         },
         max: (world) => {
@@ -46,11 +46,11 @@ var config = {
       key: 'maxAccel',
       expression: {
         min: (world) => {
-          var accel = 0.002;
+          var accel = 0.02;
           return accel;
         },
         max: (world) => {
-          var accel = 0.002;
+          var accel = 0.2;
           return accel;
         },
         units: 'pixels per frame squared'
@@ -60,12 +60,12 @@ var config = {
       key: 'vision',
       expression: {
         min: (world) => {
-          var percentOfWidth = 0.5;
-          return 200;
+          var percentOfWidth = 0.2;
+          return world.width*percentOfWidth;
         },
         max: (world) => {
           var percentOfWidth = 1;
-          return 250;
+          return world.width*percentOfWidth;
         },
         units: 'percent of board width'
       }
@@ -80,6 +80,18 @@ var config = {
           return agent.dna.getGene('vision').value;
         },
         units: 'desired pixel distance from others'
+      }
+    }
+    {
+      key: 'attractionToOthers',
+      expression:{
+        min: (world) => {
+          return 0.1;
+        },
+        max: (world) => {
+          return 1;
+        },
+        units: 'pixels/frame squared'
       }
     }
   ]

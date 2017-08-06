@@ -49,6 +49,7 @@ pb.draw = function (floor, p) {
     })
   }
   world.update();
+  this.background(60)
   world.agents.forEach(agent => {
     drawAgent(agent, this);
   })

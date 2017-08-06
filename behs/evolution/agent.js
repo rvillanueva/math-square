@@ -17,7 +17,7 @@ class Agent {
     this.traits = this.expressGenes(dna);
   	this.state = {
   		position:Vec2D.ObjectVector(position.x,position.y),
-  		velocity:Vec2D.ObjectVector((Math.random() - 0.5) * .1, (Math.random() - 0.5) * .1),
+  		velocity:Vec2D.ObjectVector((Math.random() - 0.5) * .5, (Math.random() - 0.5) * .5),
       //velocity:Vec2D.ObjectVector(0,0),
   		acceleration:Vec2D.ObjectVector(0,0),
   		alive: true,
@@ -43,6 +43,7 @@ class Agent {
     this.tryReproducing();
     this.alignWithAgents();
     this.groupWithAgents();
+    this.separateFromAgents();
     this.state.acceleration = this.limit(this.state.acceleration,this.traits.maxAccel)
     this.state.velocity.add(this.state.acceleration)
     this.state.velocity = this.limit(this.state.velocity,this.traits.maxSpeed)
@@ -140,6 +141,37 @@ class Agent {
       var steer = sum.clone()
       steer.subtract(this.state.velocity)
       steer = this.limit(steer,this.traits.maxAccel);
+      steer.mulS(this.traits.attractionToOthers)
+      this.applyForce(steer);
+    }
+  }
+
+  //separate
+  separateFromAgents(){
+    var sum = Vec2D.ObjectVector(0,0)
+    var steer = Vec2D.ObjectVector(0,0)
+    var count = 0
+    for ( var i =0; i < this.world.agents.length; i++){
+      var a = this.world.agents[i];
+      var dist = a.state.position.distance(this.state.position);
+      if ((dist > 0) && (dist<this.traits.distanceFromOthers)) {
+        var diff = this.state.position.clone()
+        diff.subtract(a.state.position)
+        diff.mulS(-1)
+        diff.normalize()
+        diff.divS(dist)
+        sum.add(diff)
+        count++
+      }
+    }
+    if(count>0){
+      sum.divS(count)
+      sum.normalize()
+      sum.mulS(this.traits.maxSpeed)
+      var steer = sum.clone()
+      steer.subtract(this.state.velocity)
+      //steer = this.limit(steer,this.traits.maxAccel);
+      steer.mulS(5)
       this.applyForce(steer);
     }
   }

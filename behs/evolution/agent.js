@@ -44,11 +44,10 @@ class Agent {
     this.checkHealth()
     this.checkForKill();
     this.checkForEdge();
-    this.tryReproducing();
     if(this.world.agents.length < 100){
       this.tryReproducing();
     }
-    //this.alignWithAgents();
+    this.alignWithAgents();
     this.groupWithAgents();
     this.separateFromAgents();
     //this.repelUser();

@@ -92,7 +92,7 @@ class Agent {
     })
 
     var roll = Math.random();
-    if(roll < (this.traits.replicationProb * sigmoid(nearbyAgents.length))){
+    if(roll < (this.traits.replicationProb * sigmoid(nearbyAgents.length)) && nearbyAgents.length > 0){
       var partner = nearbyAgents[Math.floor(Math.random() * nearbyAgents.length]];
       var dna = this.dna.reproduce(partner.dna);
       var position = {

@@ -13,11 +13,15 @@ import * as Display from 'display'
 import P5Behavior from 'p5beh';
 import * as Floor from 'floor';
 import World from './evolution/world';
+import config from './evolution/config';
+
 const pb = new P5Behavior();
 const FPS = 20;
 const world = new World({
   seedSize: 50,
-  fps: FPS
+  fps: FPS,
+  width: Display.width,
+  height: Display.height
 });
 
 
@@ -43,6 +47,17 @@ function drawAgent(agent, pb){
   pb.pop();
 }
 
+function drawUser(user){
+
+}
+
+function drawCounter(number, pb){
+  pb.fill(256);
+  pb.stroke(0);
+  pb.textSize(30);
+  pb.text(`Remaining: ${number}`, 50, 50);
+}
+
 function star(x, y, radius1, radius2, npoints, pb) {
   var angle = pb.TWO_PI / npoints;
   var halfAngle = angle/2.0;
@@ -64,7 +79,6 @@ pb.preload = function (p) {
 }
 
 pb.setup = function (p) {
-  world.setSize(Display.width, Display.height);
   world.init();
 };
 
@@ -86,6 +100,7 @@ pb.draw = function (floor, p) {
   world.agents.forEach(agent => {
     drawAgent(agent, this);
   })
+  drawCounter(world.agents.length, this);
 };
 
 

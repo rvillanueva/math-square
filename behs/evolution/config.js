@@ -18,14 +18,12 @@ var config = {
       key: 'replicationProb',
       expression: {
         min: (world) => {
-          var averageReplicationSeconds = 10;
-          return averageReplicationSeconds / world.fps / 60;
+          return 0;
         },
         max: (world) => {
-          var averageReplicationSeconds = 30;
-          return averageReplicationSeconds / world.fps / 60;
+          return 1;
         },
-        unit: 'replication chance per frame'
+        unit: 'modified likelihood of reproduction'
       }
     },
     {
@@ -142,7 +140,10 @@ var config = {
         units: 'percent'
       }
     }
-  ]
+  ],
+  killRadius: 60,
+  maxAgents: 100,
+  randomChance: 0.1
 }
 
 /*

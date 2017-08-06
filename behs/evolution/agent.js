@@ -41,6 +41,7 @@ class Agent {
     this.checkForEdge();
     this.tryReproducing();
     this.alignWithAgents();
+    this.groupWithAgents();
     this.state.acceleration = this.limit(this.state.acceleration,this.traits.maxAccel)
     this.state.velocity.add(this.state.acceleration)
     this.state.velocity = this.limit(this.state.velocity,this.traits.maxSpeed)
@@ -138,9 +139,9 @@ class Agent {
       sum.subtract(this.state.position)
       sum.normalize()
       sum.mulS(this.traits.maxSpeed)
-      steer = sum.clone()
+      var steer = sum.clone()
       steer.subtract(this.state.velocity)
-      ssteer = this.limit(steer,this.traits.maxAccel);
+      steer = this.limit(steer,this.traits.maxAccel);
       return steer;
     }
     else {

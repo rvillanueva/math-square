@@ -60,36 +60,48 @@ var config = {
       key: 'vision',
       expression: {
         min: (world) => {
-          var percentOfWidth = 0.2;
+          var percentOfWidth = .02;
           return world.width*percentOfWidth;
         },
         max: (world) => {
-          var percentOfWidth = 1;
+          var percentOfWidth = .5;
           return world.width*percentOfWidth;
         },
-        units: 'percent of board width'
+        units: 'pixels'
       }
     },
     {
       key: 'distanceFromOthers',
       expression: {
         min: (world, agent) => {
-          return 20;
+          return 10;
         },
         max: (world, agent) => {
-          return agent.dna.getGene('vision').value;
+          return 50;
         },
         units: 'desired pixel distance from others'
       }
     },
     {
+      key: 'repelFromUser',
+      expression: {
+        min: (world, agent) => {
+          return 1;
+        },
+        max: (world, agent) => {
+          return 3;
+        },
+        units: 'pixels/frame squared'
+      }
+    }
+    {
       key: 'attractionToOthers',
       expression:{
         min: (world) => {
-          return 0.1;
+          return 0;
         },
         max: (world) => {
-          return 1;
+          return .02;
         },
         units: 'pixels/frame squared'
       }

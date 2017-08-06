@@ -8,7 +8,11 @@ import config from './config';
 
 var Vec2D = require('vector2d');
 
-const killDistance = 20;
+const killDistance = 40;
+
+function sigmoid(t) {
+    return 1/(1+Math.pow(Math.E, -t));
+}
 
 class Agent {
   constructor(position,dna,w){
@@ -40,10 +44,13 @@ class Agent {
     this.checkHealth()
     this.checkForKill();
     this.checkForEdge();
-    this.tryReproducing();
+    if(this.world.agents.length < 100){
+      this.tryReproducing();
+    }
     this.alignWithAgents();
     this.groupWithAgents();
     this.separateFromAgents();
+    //this.repelUser();
     this.state.acceleration = this.limit(this.state.acceleration,this.traits.maxAccel)
     this.state.velocity.add(this.state.acceleration)
     this.state.velocity = this.limit(this.state.velocity,this.traits.maxSpeed)
@@ -81,9 +88,13 @@ class Agent {
   }
 
   tryReproducing(){
+    var nearbyAgents = this.world.agents.filter(agent => {
+      return this.state.position.distance(agent.state.position) < this.traits.vision;
+    })
+
     var roll = Math.random();
-    if(roll < this.traits.replicationProb && this.world.agents.length < 100){
-      var partner = this.world.agents[Math.floor(Math.random() * this.world.agents.length)];
+    if(roll < (this.traits.replicationProb * sigmoid(nearbyAgents.length)) && nearbyAgents.length > 0){
+      var partner = nearbyAgents[Math.floor(Math.random() * nearbyAgents.length]];
       var dna = this.dna.reproduce(partner.dna);
       var position = {
         x: (this.state.position.getX() + partner.state.position.getX())/2,
@@ -140,8 +151,8 @@ class Agent {
       sum.mulS(this.traits.maxSpeed)
       var steer = sum.clone()
       steer.subtract(this.state.velocity)
-      steer = this.limit(steer,this.traits.maxAccel);
       steer.mulS(this.traits.attractionToOthers)
+      steer = this.limit(steer,this.traits.maxAccel);
       this.applyForce(steer);
     }
   }
@@ -157,8 +168,8 @@ class Agent {
       if ((dist > 0) && (dist<this.traits.distanceFromOthers)) {
         var diff = this.state.position.clone()
         diff.subtract(a.state.position)
-        diff.mulS(-1)
         diff.normalize()
+        //diff.mulS(-1)
         diff.divS(dist)
         sum.add(diff)
         count++
@@ -173,6 +184,25 @@ class Agent {
       //steer = this.limit(steer,this.traits.maxAccel);
       steer.mulS(5)
       this.applyForce(steer);
+    }
+  }
+
+  repelUser(){
+    for (var i = 0; i < this.world.users.length; i++){
+      var user = this.world.users[i];
+      if(this.state.position.distance(user.position) < this.traits.vision){
+        var diff = this.state.position.clone()
+        var dist = diff.magnitude()
+        diff.subtract(user.position)
+        diff.mulS(-1)
+        diff.normalize()
+        diff.divS(dist)
+        diff.mulS(this.traits.maxSpeed)
+        var steer = diff.clone()
+        steer.subtract(this.state.velocity)
+        steer.mulS(this.traits.repelFromUser)
+        this.applyForce(steer)
+      }
     }
   }
 
@@ -192,7 +222,7 @@ class Agent {
       vec.mulS(mag)
     }
     return v
-    
+
   }
 
   mapper(val,min, max){

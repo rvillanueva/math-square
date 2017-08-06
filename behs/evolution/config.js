@@ -81,7 +81,7 @@ var config = {
         },
         units: 'desired pixel distance from others'
       }
-    }
+    },
     {
       key: 'attractionToOthers',
       expression:{
@@ -92,6 +92,18 @@ var config = {
           return 1;
         },
         units: 'pixels/frame squared'
+      }
+    },
+    {
+      key: 'color',
+      expression:{
+        min: (world) => {
+          return 0;
+        },
+        max: (world) => {
+          return 16777215;
+        },
+        units: 'integer to rgb'
       }
     }
   ]

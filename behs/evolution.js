@@ -13,7 +13,7 @@ import * as Display from 'display'
 import P5Behavior from 'p5beh';
 import * as Floor from 'floor';
 import World from './evolution/world';
-
+const intToRgb = require('int-to-rgb');
 const pb = new P5Behavior();
 const FPS = 20;
 const world = new World({
@@ -26,8 +26,10 @@ function drawAgent(agent, pb){
   var vector = pb.createVector(agent.state.velocity.x, agent.state.velocity.y);
   var theta = vector.heading() + pb.radians(90);
   var r = 5;
-  pb.fill(204);
-  pb.stroke(0);
+  var color = intToRgb(Math.floor(agent.traits.color));
+  var rgbStr = `rgb(${color.red}, ${color.green}, ${color.blue})`;
+  pb.fill(rgbStr);
+  pb.stroke(50);
   pb.push();
   pb.translate(agent.state.position.x,agent.state.position.y);
   pb.rotate(theta);

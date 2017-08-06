@@ -41,9 +41,10 @@ class Agent {
     this.checkForKill();
     this.checkForEdge();
     this.tryReproducing();
-    this.alignWithAgents();
+    //this.alignWithAgents();
     this.groupWithAgents();
     this.separateFromAgents();
+    //this.repelUser();
     this.state.acceleration = this.limit(this.state.acceleration,this.traits.maxAccel)
     this.state.velocity.add(this.state.acceleration)
     this.state.velocity = this.limit(this.state.velocity,this.traits.maxSpeed)
@@ -140,8 +141,8 @@ class Agent {
       sum.mulS(this.traits.maxSpeed)
       var steer = sum.clone()
       steer.subtract(this.state.velocity)
-      steer = this.limit(steer,this.traits.maxAccel);
       steer.mulS(this.traits.attractionToOthers)
+      steer = this.limit(steer,this.traits.maxAccel);
       this.applyForce(steer);
     }
   }
@@ -157,8 +158,8 @@ class Agent {
       if ((dist > 0) && (dist<this.traits.distanceFromOthers)) {
         var diff = this.state.position.clone()
         diff.subtract(a.state.position)
-        diff.mulS(-1)
         diff.normalize()
+        //diff.mulS(-1)
         diff.divS(dist)
         sum.add(diff)
         count++
@@ -173,6 +174,25 @@ class Agent {
       //steer = this.limit(steer,this.traits.maxAccel);
       steer.mulS(5)
       this.applyForce(steer);
+    }
+  }
+
+  repelUser(){
+    for (var i = 0; i < this.world.users.length; i++){
+      var user = this.world.users[i];
+      if(this.state.position.distance(user.position) < this.traits.vision){
+        var diff = this.state.position.clone()
+        var dist = diff.magnitude()
+        diff.subtract(user.position)
+        diff.mulS(-1)
+        diff.normalize()
+        diff.divS(dist)
+        diff.mulS(this.traits.maxSpeed)
+        var steer = diff.clone()
+        steer.subtract(this.state.velocity)
+        steer.mulS(this.traits.repelFromUser)
+        this.applyForce(steer)
+      }
     }
   }
 

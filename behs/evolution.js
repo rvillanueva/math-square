@@ -23,8 +23,12 @@ const world = new World({
 
 
 function drawAgent(agent, pb){
+  pb.noStroke()
   pb.fill(204)
   pb.ellipse(agent.state.position.getX(), agent.state.position.getY(), 10, 10)
+  pb.noFill()
+  pb.stroke(255,0,0)
+  //pb.ellipse(agent.state.position.getX(), agent.state.position.getY(), agent.traits.vision, agent.traits.vision)
 }
 
 pb.preload = function (p) {

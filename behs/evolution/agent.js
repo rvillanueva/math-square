@@ -41,7 +41,7 @@ class Agent {
   }
 
   update(){
-    this.checkHealth()
+    //this.checkHealth()
     this.checkForKill();
     this.checkForEdge();
     if(this.world.agents.length < 100){
@@ -50,7 +50,7 @@ class Agent {
     this.alignWithAgents();
     this.groupWithAgents();
     this.separateFromAgents();
-    //this.repelUser();
+    this.repelUser();
     this.state.acceleration = this.limit(this.state.acceleration,this.traits.maxAccel)
     this.state.velocity.add(this.state.acceleration)
     this.state.velocity = this.limit(this.state.velocity,this.traits.maxSpeed)
@@ -160,7 +160,6 @@ class Agent {
   //separate
   separateFromAgents(){
     var sum = Vec2D.ObjectVector(0,0)
-    var steer = Vec2D.ObjectVector(0,0)
     var count = 0
     for ( var i =0; i < this.world.agents.length; i++){
       var a = this.world.agents[i];
@@ -182,27 +181,37 @@ class Agent {
       var steer = sum.clone()
       steer.subtract(this.state.velocity)
       //steer = this.limit(steer,this.traits.maxAccel);
-      steer.mulS(5)
+      //steer.mulS(5)
       this.applyForce(steer);
     }
   }
 
   repelUser(){
+    var sum = Vec2D.ObjectVector(0,0)
+    var steer = Vec2D.ObjectVector(0,0)
+    var count = 0
     for (var i = 0; i < this.world.users.length; i++){
       var user = this.world.users[i];
+      var dist = user.position.distance(this.state.position)
       if(this.state.position.distance(user.position) < this.traits.vision){
         var diff = this.state.position.clone()
         var dist = diff.magnitude()
         diff.subtract(user.position)
-        diff.mulS(-1)
+        //diff.mulS(-1)
         diff.normalize()
         diff.divS(dist)
-        diff.mulS(this.traits.maxSpeed)
-        var steer = diff.clone()
-        steer.subtract(this.state.velocity)
-        steer.mulS(this.traits.repelFromUser)
-        this.applyForce(steer)
+        sum.add(diff)
+        count++
       }
+    }
+    if(count>0){
+      sum.divS(count)
+      sum.normalize()
+      sum.mulS(this.traits.maxSpeed)
+      var steer = sum.clone()
+      steer.subtract(this.state.velocity)
+      steer.mulS(this.traits.repelFromUser)
+      this.applyForce(steer)
     }
   }
 

@@ -86,10 +86,10 @@ var config = {
       key: 'repelFromUser',
       expression: {
         min: (world, agent) => {
-          return 1;
+          return 0;
         },
         max: (world, agent) => {
-          return 3;
+          return 1;
         },
         units: 'pixels/frame squared'
       }

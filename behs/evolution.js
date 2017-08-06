@@ -54,6 +54,44 @@ function drawCounter(number, pb){
   pb.stroke(0);
   pb.textSize(18);
   pb.text(`Remaining: ${number}`, 25, 50);
+  pb.text(`Remaining: ${number}`, 25, 50);
+  pb.text(`Remaining: ${number}`, 25, 50);
+}
+
+function drawAverageGeneTracker(genes, pb){
+  var startY = 70;
+  var spacing = 16;
+  for(var i = 0; i < genes.length; i++){
+    var gene = genes[i];
+    var y = startY + spacing * i;
+    pb.fill(256);
+    pb.stroke(0);
+    pb.textSize(12);
+    pb.text(`${gene.key}: ${gene.value}`, 25, y);
+  }
+}
+
+function getAverageGenes(agents){
+  var keyIndex = {};
+  var keyArray = [];
+  var averageGenes = [];
+  agents.forEach(agent => {
+    agent.dna.genes.forEach((gene, g) => {
+      if(typeof keyIndex[gene.key] === 'undefined'){
+        keyArray.push(gene.key);
+        keyIndex[gene.key] = gene.value;
+      } else {
+        keyIndex[gene.key] += gene.value;
+      }
+    })
+  })
+  keyArray.forEach((key) => {
+    averageGenes.push({
+      key: key,
+      value: Math.floor(keyIndex[key]/agents.length * 100)/100
+    })
+  })
+  return averageGenes;
 }
 function drawUser(user,pb){
 	//console.log(user.position)
@@ -126,6 +164,8 @@ pb.draw = function (floor, p) {
   	drawUser(user,this)
   })
   drawCounter(world.agents.length, this);
+  var averageGenes = getAverageGenes(world.agents);
+  drawAverageGeneTracker(averageGenes, this);
 };
 
 

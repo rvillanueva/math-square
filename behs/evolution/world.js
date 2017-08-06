@@ -59,15 +59,9 @@ class World {
     this.agents.push(agent);
   }
 
-  trimGhosts(){
-
-  }
-
   update(){
   	if(this.users.length < 2){
     	this.createGhostUser()
-    } else {
-      this.trimGhosts();
     }
     this.agents = this.agents.filter(agent => {
       return agent.state.alive;

@@ -91,10 +91,9 @@ class Agent {
     })
 
     var roll = Math.random();
-    var k = 5;
-    var c = 0.0025;
-    var agentCoverage = (config.maxAgents - this.world.agents.length)/config.maxAgents;
-    if(roll < c * (k * agentCoverage / (k - agentCoverage + 1) * this.traits.replicationProb){
+    var k = 1;
+    var c = 2;
+    if(roll < c/(c*Math.pow(this.world.agents.length, 1.7)) * this.traits.replicationProb){
       var partner = nearbyAgents[Math.floor(Math.random() * nearbyAgents.length]];
       var dna = this.dna.reproduce(partner.dna);
       if(Math.random() < config.randomChance){

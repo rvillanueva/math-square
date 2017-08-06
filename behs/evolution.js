@@ -27,8 +27,8 @@ const world = new World({
 
 function drawAgent(agent, pb){
   var lifespan = agent.dna.getGene("lifespan").value
-  var maxAccel = agent.dna.getGene("maxAccel").value
-  var health = agent.state.health
+  var maxAccel = agent.dna.getGene("maxAccel").value  
+  var health = agent.state.health 
   var attractionToOthers = agent.dna.getGene("attractionToOthers").value
   var distanceFromOthers = agent.dna.getGene("distanceFromOthers").value
   var replicationProb = agent.dna.getGene("replicationProb").value
@@ -36,14 +36,14 @@ function drawAgent(agent, pb){
   var width = 2
   var height = 2
   var hslStr = `hsl(${Math.floor(agent.traits['hsl-h'])}, ${Math.floor(agent.traits['hsl-s'])}%, ${Math.floor(agent.traits['hsl-l'])}%)`;
+/*  pb.stroke('hsl(160, 100%, health*100%)');
+  pb.strokeWeight(vision*2);*/
+  pb.noStroke();
   pb.fill(hslStr);
-  pb.stroke('hsl(160, 100%, health*100%)');
-  pb.strokeWeight(vision*2);
-
   pb.push();
   pb.translate(agent.state.position.x,agent.state.position.y);
-  pb.rotate(FPS / (15/maxAccel));
-  star(0, 0, 3, 15, lifespan*10, pb);
+  pb.rotate(FPS / 100);
+  polygon(0, 0, 15, lifespan*10, pb);  
   pb.pop();
 }
 
@@ -58,16 +58,12 @@ function drawCounter(number, pb){
   pb.text(`Remaining: ${number}`, 50, 50);
 }
 
-function star(x, y, radius1, radius2, npoints, pb) {
+function polygon(x, y, radius, npoints,pb) {
   var angle = pb.TWO_PI / npoints;
-  var halfAngle = angle/2.0;
   pb.beginShape();
   for (var a = 0; a < pb.TWO_PI; a += angle) {
-    var sx = x + pb.cos(a) * radius2;
-    var sy = y + pb.sin(a) * radius2;
-    pb.vertex(sx, sy);
-    sx = x + pb.cos(a+halfAngle) * radius1;
-    sy = y + pb.sin(a+halfAngle) * radius1;
+    var sx = x + pb.cos(a) * radius;
+    var sy = y + pb.sin(a) * radius;
     pb.vertex(sx, sy);
   }
   pb.endShape();

@@ -24,6 +24,7 @@ const world = new World({
   height: Display.height
 });
 let frames = 0;
+var theta = 0;
 
 
 function drawAgent(agent, pb){
@@ -102,6 +103,11 @@ function drawUser(user,pb){
 	pb.ellipse(user.position.x,user.position.y,r,r)
 	pb.noStroke()
 	pb.fill(0,100,255)
+	var colorTo = pb.color(255,255,255)
+	var colorFrom = pb.color(255,50,0)
+	theta +=0.1
+	var colorLerp = pb.lerpColor(colorFrom, colorTo, pb.sin(theta))
+	pb.fill(colorLerp)
 	pb.ellipse(user.position.x,user.position.y,r/2,r/2)
 }
 
@@ -156,7 +162,7 @@ pb.draw = function (floor, p) {
     })
   }
   world.update();
-  this.background(60)
+  this.background(0)
   world.agents.forEach(agent => {
     drawAgent(agent, this);
   })

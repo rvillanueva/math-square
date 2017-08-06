@@ -4,7 +4,7 @@ MoMath Hackathon 2017: Evolution
 
 Project category: Math Square
 
-[![Evolution Screenshot](./images/evolution_screenshot.png)]
+![Evolution Screenshot](./images/evolution_screenshot.png)
 
 ## Team members
 Ryan Villanueva
@@ -13,7 +13,7 @@ David Krawczyk
 
 ## The Math
 
-Genetic algorithms is the mathematical principle explored in this activity. Organisms have traits that mutate as they reproduce. Organisms that are more apt to survive are created as a result. This principle is vital in engineering, ecology, epidemiology, etc. Using genetic algorithms solutions can be optimized for their application.
+Genetic algorithms is the mathematical principle explored in this activity.  By simulating individual agents, we can find an optimal set of traits by removing unfit agents and allowing the surviving agents to reproduce and share their genes. The math of evolution doesn't just drive biology--it is a core principle in ecology, epidemiology, and engineering today.
 
 ## The Submission
 

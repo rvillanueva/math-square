@@ -54,8 +54,6 @@ function drawCounter(number, pb){
   pb.stroke(0);
   pb.textSize(18);
   pb.text(`Remaining: ${number}`, 25, 50);
-  pb.text(`Remaining: ${number}`, 25, 50);
-  pb.text(`Remaining: ${number}`, 25, 50);
 }
 
 function drawAverageGeneTracker(genes, pb){

@@ -20,7 +20,6 @@ class Agent {
   	this.state = {
   		position:Vec2D.ObjectVector(position.x,position.y),
   		velocity:Vec2D.ObjectVector((Math.random() - 0.5) * .5, (Math.random() - 0.5) * .5),
-      //velocity:Vec2D.ObjectVector(0,0),
   		acceleration:Vec2D.ObjectVector(0,0),
   		alive: true,
   		health: this.traits.lifespan

@@ -7,9 +7,10 @@ class World {
     this.options = options || {};
     this.users = [];
     this.agents = [];
-    this.width = 1920;
-    this.height = 1080;
+    this.width = this.options.width || 1920;
+    this.height = this.options.height || 1080;
     this.fps = this.options.fps || 20;
+    this.ghostCounter = 0
   }
 
   init(){
@@ -22,17 +23,14 @@ class World {
     console.log(`World size is [${this.width},${this.height}], started with ${seedSize} agents.`);
   }
 
-  setSize(width, height){
-    this.width = width;
-    this.height = height;
-  }
-
   clearUsers(){
-    this.users = [];
+    this.users = this.users.filter(user => {
+    	return user.ghost;
+    });
   }
 
   addUser(u){
-    var user = new User(u.id);
+    var user = new User(u.id,this);
     user.setPosition(u.x, u.y);
     this.users.push(user);
   }
@@ -51,9 +49,11 @@ class World {
   }
 
   createGhostUser(){
-  	var user = new User();
+  	var user = new User(this.ghostCounter,this);
   	user.ghost = true;
   	this.users.push(user);
+  	this.ghostCounter++;
+  	console.log(this.users)
   }
 
   createAgent(agent){
@@ -61,19 +61,18 @@ class World {
   }
 
   update(){
+  	if(this.users.length < 2){
+    	this.createGhostUser()
+    }
     this.agents = this.agents.filter(agent => {
       return agent.state.alive;
     });
-    if(this.agents.length < 10){
-      this.createRandomAgents(Math.floor(Math.random() * 10));
+    if(this.agents.length < 2){
+      this.createRandomAgents(1);
     }
     this.agents.forEach(agent => {
       agent.update(this);
     });
-
-    if(this.users.length < 2){
-    	this.createGhostUser()
-    }
     this.users.forEach(user => {
     	user.update(this)
     })

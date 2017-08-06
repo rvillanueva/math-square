@@ -18,14 +18,12 @@ var config = {
       key: 'replicationProb',
       expression: {
         min: (world) => {
-          var averageReplicationSeconds = 10;
-          return averageReplicationSeconds / world.fps / 60;
+          return 0;
         },
         max: (world) => {
-          var averageReplicationSeconds = 30;
-          return averageReplicationSeconds / world.fps / 60;
+          return 1;
         },
-        unit: 'replication chance per frame'
+        unit: 'modified likelihood of reproduction'
       }
     },
     {
@@ -105,8 +103,47 @@ var config = {
         },
         units: 'pixels/frame squared'
       }
+    },
+    {
+      key: 'hsl-h',
+      expression:{
+        min: (world) => {
+          return 0;
+        },
+        max: (world) => {
+          return 256;
+        },
+        units: 'hue'
+      }
+    },
+    {
+      key: 'hsl-s',
+      expression:{
+        min: (world) => {
+          return 75;
+        },
+        max: (world) => {
+          return 100;
+        },
+        units: 'percent'
+      }
+    },
+    {
+      key: 'hsl-l',
+      expression:{
+        min: (world) => {
+          return 30;
+        },
+        max: (world) => {
+          return 95;
+        },
+        units: 'percent'
+      }
     }
-  ]
+  ],
+  killRadius: 60,
+  maxAgents: 100,
+  randomChance: 0.1
 }
 
 /*

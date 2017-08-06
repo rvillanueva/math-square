@@ -13,49 +13,78 @@ import * as Display from 'display'
 import P5Behavior from 'p5beh';
 import * as Floor from 'floor';
 import World from './evolution/world';
+import config from './evolution/config';
 
 const pb = new P5Behavior();
 const FPS = 20;
 const world = new World({
   seedSize: 50,
-  fps: FPS
+  fps: FPS,
+  width: Display.width,
+  height: Display.height
 });
 
 
 function drawAgent(agent, pb){
+  var lifespan = agent.dna.getGene("lifespan").value
+  var maxAccel = agent.dna.getGene("maxAccel").value
+  var health = agent.state.health
+  var attractionToOthers = agent.dna.getGene("attractionToOthers").value
+  var distanceFromOthers = agent.dna.getGene("distanceFromOthers").value
+  var replicationProb = agent.dna.getGene("replicationProb").value
+  var vision = agent.dna.getGene("vision").value
+  var width = 2
+  var height = 2
+  var hslStr = `hsl(${Math.floor(agent.traits['hsl-h'])}, ${Math.floor(agent.traits['hsl-s'])}%, ${Math.floor(agent.traits['hsl-l'])}%)`;
+  pb.fill(hslStr);
+  pb.stroke('hsl(160, 100%, health*100%)');
+  pb.strokeWeight(vision*2);
 
-  var vector = pb.createVector(agent.state.velocity.x, agent.state.velocity.y);
-  var theta = vector.heading() + pb.radians(90);
-  var r = 5;
-  pb.fill(204);
-  pb.stroke(0);
   pb.push();
   pb.translate(agent.state.position.x,agent.state.position.y);
-  pb.rotate(theta);
-  pb.beginShape();
-  pb.vertex(0, -r*2);
-  pb.vertex(-r, r*2);
-  pb.vertex(r, r*2);
-  pb.endShape();
-  pb.stroke(255,0,0)
-  //pb.ellipse(0, 0, agent.traits.vision, agent.traits.vision)
+  pb.rotate(FPS / (15/maxAccel));
+  star(0, 0, 3, 15, lifespan*10, pb);
   pb.pop();
+}
 
+function drawCounter(number, pb){
+  pb.fill(256);
+  pb.stroke(0);
+  pb.textSize(30);
+  pb.text(`Remaining: ${number}`, 50, 50);
 }
 
 function drawUser(user,pb){
-	var r = 60
+	//console.log(user.position)
+	var r = config.killRadius
 	pb.noFill()
 	pb.strokeWeight(3)
 	pb.stroke(0,100,255)
-	pb.ellipse(user.position.x)
+	pb.ellipse(user.position.x,user.position.y,r,r)
+	pb.noStroke()
+	pb.fill(0,100,255)
+	pb.ellipse(user.position.x,user.position.y,r/2,r/2)
+}
+
+function star(x, y, radius1, radius2, npoints, pb) {
+  var angle = pb.TWO_PI / npoints;
+  var halfAngle = angle/2.0;
+  pb.beginShape();
+  for (var a = 0; a < pb.TWO_PI; a += angle) {
+    var sx = x + pb.cos(a) * radius2;
+    var sy = y + pb.sin(a) * radius2;
+    pb.vertex(sx, sy);
+    sx = x + pb.cos(a+halfAngle) * radius1;
+    sy = y + pb.sin(a+halfAngle) * radius1;
+    pb.vertex(sx, sy);
+  }
+  pb.endShape();
 }
 
 pb.preload = function (p) {
 }
 
 pb.setup = function (p) {
-  world.setSize(Display.width, Display.height);
   world.init();
 };
 
@@ -77,6 +106,10 @@ pb.draw = function (floor, p) {
   world.agents.forEach(agent => {
     drawAgent(agent, this);
   })
+  world.users.forEach(user => {
+  	drawUser(user,this)
+  })
+  drawCounter(world.agents.length, this);
 };
 
 

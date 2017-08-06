@@ -8,8 +8,6 @@ import config from './config';
 
 var Vec2D = require('vector2d');
 
-const killDistance = 40;
-
 function sigmoid(t) {
     return 1/(1+Math.pow(Math.E, -t));
 }
@@ -44,7 +42,7 @@ class Agent {
     //this.checkHealth()
     this.checkForKill();
     this.checkForEdge();
-    if(this.world.agents.length < 100){
+    if(this.world.agents.length < config.maxAgents){
       this.tryReproducing();
     }
     this.alignWithAgents();
@@ -63,7 +61,7 @@ class Agent {
   checkForKill(){
     for (var i = 0; i < this.world.users.length; i++){
       var user = this.world.users[i];
-      if(this.state.position.distance(user.position) < 20){
+      if(this.state.position.distance(user.position) < config.killRadius ){
         this.state.alive = false;
         console.log('Agent killed!');
         return;
@@ -93,9 +91,15 @@ class Agent {
     })
 
     var roll = Math.random();
-    if(roll < (this.traits.replicationProb * sigmoid(nearbyAgents.length)) && nearbyAgents.length > 0){
+    var k = 5;
+    var c = 0.0025;
+    var agentCoverage = (config.maxAgents - this.world.agents.length)/config.maxAgents;
+    if(roll < c * (k * agentCoverage / (k - agentCoverage + 1) * this.traits.replicationProb){
       var partner = nearbyAgents[Math.floor(Math.random() * nearbyAgents.length]];
       var dna = this.dna.reproduce(partner.dna);
+      if(Math.random() < config.randomChance){
+        dna.randomize();
+      }
       var position = {
         x: (this.state.position.getX() + partner.state.position.getX())/2,
         y: (this.state.position.getY() + partner.state.position.getY())/2

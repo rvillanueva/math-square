@@ -72,16 +72,16 @@ class Agent {
     var margin = 50;
     var x = this.state.position.getX();
     var y = this.state.position.getY();
-    if(x > this.world.width + margin){
-      this.state.position.setX(0);
-    } else if (x < -1 * margin){
-      this.state.position.setX(this.world.width);
+    if(x > this.world.width - margin){
+      this.state.position.setX(this.world.width - margin);
+    } else if (x < margin){
+      this.state.position.setX(margin);
     }
 
-    if(y > this.world.height + margin){
-      this.state.position.setY(0);
-    } else if (y < -1 * margin){
-      this.state.position.setY(this.world.height);
+    if(y > this.world.height - margin){
+      this.state.position.setY(this.world.height - margin);
+    } else if (y < margin){
+      this.state.position.setY(margin);
     }
   }
 

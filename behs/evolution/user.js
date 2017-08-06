@@ -82,19 +82,19 @@ class User {
   }
 
   checkForEdge(){
-    var margin = 50;
+    var margin = 20;
     var x = this.position.getX();
     var y = this.position.getY();
-    if(x > this.world.width + margin){
-      this.position.setX(0);
-    } else if (x < -1 * margin){
-      this.position.setX(0);
+    if(x > this.world.width - margin){
+      this.position.setX(this.world.width - margin);
+    } else if (x < margin){
+      this.position.setX(margin);
     }
 
-    if(y > this.world.height + margin){
-      this.position.setY(0);
-    } else if (y < -1 * margin){
-      this.position.setY(0);
+    if(y > this.world.height - margin){
+      this.position.setY(this.world.height - margin);
+    } else if (y < margin){
+      this.position.setY(margin);
     }
   }
 

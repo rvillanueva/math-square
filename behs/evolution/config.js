@@ -32,11 +32,11 @@ var config = {
       key: 'maxSpeed',
       expression: {
         min: (world) => {
-          var secondsToCoverWidth = 20;
+          var secondsToCoverWidth = 40;
           return world.width / (secondsToCoverWidth * world.fps);
         },
         max: (world) => {
-          var secondsToCoverWidth = 3;
+          var secondsToCoverWidth = 6;
           return world.width / (secondsToCoverWidth * world.fps);
         },
         unit: 'pixels per frame'
@@ -46,11 +46,11 @@ var config = {
       key: 'maxAccel',
       expression: {
         min: (world) => {
-          var accel = 0.02;
+          var accel = 0.002;
           return accel;
         },
         max: (world) => {
-          var accel = 1000;
+          var accel = 0.002;
           return accel;
         },
         units: 'pixels per frame squared'
@@ -60,12 +60,12 @@ var config = {
       key: 'vision',
       expression: {
         min: (world) => {
-          var percentOfWidth = 0;
-          return percentOfWidth * world.width;
+          var percentOfWidth = 0.5;
+          return 200;
         },
         max: (world) => {
           var percentOfWidth = 1;
-          return percentOfWidth * world.width;
+          return 250;
         },
         units: 'percent of board width'
       }

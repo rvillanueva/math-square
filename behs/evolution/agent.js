@@ -17,7 +17,8 @@ class Agent {
     this.traits = this.expressGenes(dna);
   	this.state = {
   		position:Vec2D.ObjectVector(position.x,position.y),
-  		velocity:Vec2D.ObjectVector((Math.random() - 0.5) * 7, (Math.random() - 0.5) * 7),
+  		velocity:Vec2D.ObjectVector((Math.random() - 0.5) * .1, (Math.random() - 0.5) * .1),
+      //velocity:Vec2D.ObjectVector(0,0),
   		acceleration:Vec2D.ObjectVector(0,0),
   		alive: true,
   		health: this.traits.lifespan
@@ -97,7 +98,7 @@ class Agent {
       this.state.alive = false;
     }
   }
-
+//alignment
   alignWithAgents(){
     var sum = Vec2D.ObjectVector(0,0);
     var count = 0;
@@ -116,13 +117,10 @@ class Agent {
       var steer = sum.clone();
       steer.subtract(this.state.velocity);
       steer = this.limit(steer,this.traits.maxAccel);
-      return steer;
-    }
-    else {
-      return Vec2D.ObjectVector(0,0);
+      this.applyForce(steer);
     }
   }
-
+//cohesions
   groupWithAgents(){
     var sum = Vec2D.ObjectVector(0,0);
     var count = 0;
@@ -142,10 +140,7 @@ class Agent {
       var steer = sum.clone()
       steer.subtract(this.state.velocity)
       steer = this.limit(steer,this.traits.maxAccel);
-      return steer;
-    }
-    else {
-      return Vec2D.ObjectVector(0,0);
+      this.applyForce(steer);
     }
   }
 
@@ -158,12 +153,14 @@ class Agent {
     this.state.acceleration.add(force)
   }
 
-  limit(vec,magnitude){
-    if (vec.magnitude > magnitude){
-      vec.normalize()
-      vec.mulS(magnitude)
+  limit(vec,mag){
+    var v = vec;
+    if (v.magnitude() > mag){
+      v.unit()
+      vec.mulS(mag)
     }
-    return vec
+    return v
+    
   }
 
   mapper(val,min, max){

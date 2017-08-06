@@ -15,8 +15,8 @@ class World {
   init(){
     this.users = [];
     this.agents = [];
-    var seedSize = this.options.seedSize || 50;
-    this.createRandomAgents(this.options.seedSize || 50);
+    var seedSize = this.options.seedSize || 5;
+    this.createRandomAgents(this.options.seedSize || 5);
 
     console.log(`Evolution world initialized!`)
     console.log(`World size is [${this.width},${this.height}], started with ${seedSize} agents.`);

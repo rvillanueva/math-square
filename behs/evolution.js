@@ -43,6 +43,14 @@ function drawAgent(agent, pb){
 
 }
 
+function drawUser(user,pb){
+	var r = 60
+	pb.noFill()
+	pb.strokeWeight(3)
+	pb.stroke(0,100,255)
+	pb.ellipse(user.position.x)
+}
+
 pb.preload = function (p) {
 }
 

@@ -50,6 +50,12 @@ class World {
     }
   }
 
+  createGhostUser(){
+  	var user = new User();
+  	user.ghost = true;
+  	this.users.push(user);
+  }
+
   createAgent(agent){
     this.agents.push(agent);
   }
@@ -64,6 +70,13 @@ class World {
     this.agents.forEach(agent => {
       agent.update(this);
     });
+
+    if(this.users.length < 2){
+    	this.createGhostUser()
+    }
+    this.users.forEach(user => {
+    	user.update(this)
+    })
   }
 }
 

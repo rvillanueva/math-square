@@ -97,7 +97,7 @@ function drawUser(user,pb){
 	var r = config.killRadius
 	pb.noFill()
 	pb.strokeWeight(3)
-	pb.stroke(0,100,255)
+	pb.stroke(255,50,0)
 	pb.ellipse(user.position.x,user.position.y,r,r)
 	pb.noStroke()
 	pb.fill(0,100,255)

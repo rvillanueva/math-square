@@ -11,7 +11,7 @@ class User {
     this.acceleration = Vec2D.ObjectVector(0,0)
 
     this.maxAccel = 0.03
-    this.maxSpeed = 2    
+    this.maxSpeed = 2
   }
 
   setPosition(x, y){
@@ -28,7 +28,6 @@ class User {
 		this.velocity = this.limit(this.velocity,this.maxSpeed)
 		this.position.add(this.velocity)
 		this.acceleration.mulS(0)
-		console.log(this.velocity)
 	}
   }
 
@@ -102,7 +101,7 @@ class User {
     this.acceleration.add(force)
   }
 
-  
+
   limit(vec,mag){
     var v = vec;
     if (v.magnitude() > mag){

@@ -7,8 +7,8 @@ class World {
     this.options = options || {};
     this.users = [];
     this.agents = [];
-    this.width = 1920;
-    this.height = 1080;
+    this.width = this.options.width || 1920;
+    this.height = this.options.height || 1080;
     this.fps = this.options.fps || 20;
   }
 
@@ -20,11 +20,6 @@ class World {
 
     console.log(`Evolution world initialized!`)
     console.log(`World size is [${this.width},${this.height}], started with ${seedSize} agents.`);
-  }
-
-  setSize(width, height){
-    this.width = width;
-    this.height = height;
   }
 
   clearUsers(){
@@ -58,8 +53,8 @@ class World {
     this.agents = this.agents.filter(agent => {
       return agent.state.alive;
     });
-    if(this.agents.length < 10){
-      this.createRandomAgents(Math.floor(Math.random() * 10));
+    if(this.agents.length < 2){
+      this.createRandomAgents(1);
     }
     this.agents.forEach(agent => {
       agent.update(this);

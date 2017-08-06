@@ -48,7 +48,7 @@ var config = {
           return accel;
         },
         max: (world) => {
-          var accel = 0.2;
+          var accel = 0.4;
           return accel;
         },
         units: 'pixels per frame squared'
@@ -87,7 +87,7 @@ var config = {
           return 0;
         },
         max: (world, agent) => {
-          return 3;
+          return 1;
         },
         units: 'pixels/frame squared'
       }

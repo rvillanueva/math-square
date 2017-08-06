@@ -213,7 +213,7 @@ class Agent {
       sum.mulS(this.traits.maxSpeed)
       var steer = sum.clone()
       steer.subtract(this.state.velocity)
-      steer.mulS(this.traits.repelFromUser)
+      steer.mulS(100)
       this.applyForce(steer)
     }
   }
